@@ -6,14 +6,13 @@ import time
 rf, wf = os.pipe()
 
 # in child process
-proc = Popen(['termux-sensor', '-s', 'orientation'], stdout=wf)
+proc = Popen(['ping', '-c 10', 'google.com'], stdout=wf)
 
 # in parent process
 os.close(wf)
 
 with open(rf, 'r') as file:
-    data = file.read()
-    data = eval(data)
-    print(f"received: {data}")
+    for line in file:
+        print(f"received: {line.encode()}")
 
 proc.wait()
