@@ -7,7 +7,7 @@ def sigint_callback(sig_num, stack):
     print(f"received: {sig_num}")
     proc.terminate()
 
-signal.signal(signal.SIGINT, sigterm_callback)
+signal.signal(signal.SIGINT, sigint_callback)
 
 rf, wf = os.pipe()
 
@@ -25,7 +25,7 @@ with open(rf, 'r') as file:
         data += line
         counter += 1
         if counter == 9:
-            data = eval(data)["Orientation Sensor"]["Values"]
+            data = eval(data)["Orientation Sensor"]["values"]
             print(f"yaw: {data[0]} pitch: {data[1]} roll: {data[2]}")
             data = ""
             counter = 0
