@@ -3,11 +3,11 @@ import signal
 from subprocess import PIPE, Popen
 import time
 
-def sigterm_callback(sig_num, stack):
+def sigint_callback(sig_num, stack):
     print(f"received: {sig_num}")
     proc.terminate()
 
-signal.signal(signal.SIGTERM, sigterm_callback)
+signal.signal(signal.SIGINT, sigterm_callback)
 
 rf, wf = os.pipe()
 
