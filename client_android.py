@@ -6,14 +6,14 @@ import time
 rf, wf = os.pipe()
 
 # in child process
-proc = Popen(['termux-sensor', '-d', '1000', '-s' 'Orientation Sensor'], stdout=wf)
-
+#proc = Popen(['termux-sensor', '-d', '1000', '-s' 'Orientation Sensor'], stdout=wf)
+proc = Popen(['ping', '-c 10', 'google.com'], stdout=wf)
 # in parent process
 os.close(wf)
 
 with open(rf, 'r') as file:
     while proc.poll() is None:
-        data = file.readline(5)
+        data = file.readline()
         print(f"received: {data}")
 
 proc.wait()
