@@ -6,7 +6,7 @@ import time
 rf, wf = os.pipe()
 
 # in child process
-proc = Popen(['termux-sensor', '-s orientation'], stdout=wf)
+proc = Popen(['termux-sensor', '-s "Orientation Sensor"'], stdout=wf)
 
 # in parent process
 os.close(wf)
