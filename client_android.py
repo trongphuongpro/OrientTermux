@@ -1,7 +1,13 @@
 import os
-import asyncio
+import signal
 from subprocess import PIPE, Popen
 import time
+
+def sigterm_callback(sig_num, stack):
+    print(f"received: {sig_num}")
+    proc.terminate()
+
+signal.signal(signal.SIGTERM, sigterm_callback)
 
 rf, wf = os.pipe()
 
@@ -19,7 +25,8 @@ with open(rf, 'r') as file:
         data += line
         counter += 1
         if counter == 9:
-            print(f"received: {data}")
+            data = eval(data)["Orientation Sensor"]["Values"]
+            print(f"yaw: {data[0]} pitch: {data[1]} roll: {data[2]}")
             data = ""
             counter = 0
 
