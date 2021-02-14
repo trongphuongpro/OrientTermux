@@ -6,7 +6,7 @@ import time
 rf, wf = os.pipe()
 
 # in child process
-proc = Popen(['ping', '-c 10', 'google.com'], stdout=wf)
+proc = Popen(['termux', '-s orientation'], stdout=wf)
 
 # in parent process
 os.close(wf)
