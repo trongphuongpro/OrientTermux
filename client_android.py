@@ -12,8 +12,15 @@ proc = Popen(['termux-sensor', '-d', '1000', '-s' 'Orientation Sensor'], stdout=
 os.close(wf)
 
 with open(rf, 'r') as file:
-    while proc.poll() is None:
-        data = file.readline()
-        print(f"received: {data}")
+    counter = 0
+    data = ""
+
+    for line in file:
+        data += line
+        counter += 1
+        if counter == 9:
+            print(f"received: {data}")
+            data = ""
+            counter = 0
 
 proc.wait()
