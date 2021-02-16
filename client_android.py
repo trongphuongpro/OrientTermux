@@ -36,7 +36,7 @@ proc = Popen(['termux-sensor', '-d', '1000', '-s' 'Orientation Sensor'], stdout=
 # in parent process
 os.close(wf)
 
-sio.connect('192.168.43.191:1234')
+sio.connect('http://192.168.43.191:1234')
 
 with open(rf, 'r') as file:
     counter = 0
