@@ -49,7 +49,7 @@ with open(rf, 'r') as file:
         if counter == total_line:
             data = eval(data)["Orientation Sensor"]["values"]
             print(f"yaw: {data[0]} pitch: {data[1]} roll: {data[2]}")
-            sio.emit('data', {'data':data}, emitData_callback)
+            sio.emit('data', data=data, callback=emitData_callback)
 
             data = ""
             counter = 0
