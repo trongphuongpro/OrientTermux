@@ -31,7 +31,7 @@ signal.signal(signal.SIGINT, sigint_callback)
 rf, wf = os.pipe()
 
 # in child process
-proc = Popen(['termux-sensor', '-d', '1000', '-s' 'Orientation Sensor'], stdout=wf)
+proc = Popen(['termux-sensor', '-d', '100', '-s' 'Orientation Sensor'], stdout=wf)
 
 # in parent process
 os.close(wf)
@@ -47,9 +47,12 @@ with open(rf, 'r') as file:
         data += line
         counter += 1
         if counter == total_line:
-            data = eval(data)["Orientation Sensor"]["values"]
-            print(f"yaw: {data[0]} pitch: {data[1]} roll: {data[2]}")
-            sio.emit('data', data=data, callback=emitData_callback)
+            try:
+                data = eval(data)["Orientation Sensor"]["values"]
+                print(f"yaw: {data[0]} pitch: {data[1]} roll: {data[2]}")
+                sio.emit('data', data=data, callback=emitData_callback)
+            except Exception as e:
+                print(f"Error: {e}")
 
             data = ""
             counter = 0
