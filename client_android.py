@@ -24,8 +24,9 @@ def emitData_callback(res):
 
 def sigint_callback(sig_num, stack):
     print(f"received: {sig_num}")
-    proc.terminate()
     sio.disconnect()
+    proc.terminate()
+    
 
 signal.signal(signal.SIGINT, sigint_callback)
 
@@ -47,10 +48,15 @@ with open(rf, 'r') as file:
     for line in file:
         data += line
         counter += 1
+
+        # in case termux-sensor return empty dict (ex. {})
+        if line == '}' and counter == 2:
+            data = ""
+            counter = 0
+
         if counter == total_line:
             try:
                 data = eval(data)["Orientation Sensor"]["values"]
-                #print(f"yaw: {data[0]} pitch: {data[1]} roll: {data[2]}")
                 sio.emit('data', data=data, callback=emitData_callback)
             except Exception as e:
                 print(f"Error: {e}")
