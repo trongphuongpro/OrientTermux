@@ -25,7 +25,9 @@ def emitData_callback(res):
 def sigint_callback(sig_num, stack):
     print(f"received: {sig_num}")
     sio.disconnect()
+    print(f">> disconnected with socket server")
     proc.terminate()
+    print(f">> subprocess terminated")
     
 
 signal.signal(signal.SIGINT, sigint_callback)
